@@ -15,7 +15,6 @@ PLACEHOLDER_UUID = "00000000-0000-0000-0000-000000000000"
 
 # --- Helper Functions ---
 
-# (check_openapi_spec remains the same)
 def check_openapi_spec(base_url: str, anon_key: str) -> dict | None:
     """
     Attempts to fetch the OpenAPI spec from the /rest/v1/ endpoint.
@@ -23,6 +22,7 @@ def check_openapi_spec(base_url: str, anon_key: str) -> dict | None:
     spec_url = urljoin(base_url, "/rest/v1/")
     headers = DEFAULT_HEADERS.copy()
     headers['apikey'] = anon_key
+    headers['Authorization'] = f"Bearer {anon_key}"
     print(f"[*] Checking for OpenAPI spec at: {spec_url}")
     try:
         response = requests.get(spec_url, headers=headers, timeout=15)
